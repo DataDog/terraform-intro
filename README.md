@@ -1,27 +1,28 @@
 # Terraform Introduction Demo
-A demo project for introducting terraform. A short presentation goes with this
-code base, [available
-here](https://docs.google.com/presentation/d/1L8BQ1ckdRQq1J-3uISvu8icPzTgpkEVlZR0EllCeMz4/edit?usp=sharing).
+A demo project for introducing terraform.
 
-# Environments
-This repo currently uses two environments, they are listed in the sub-sections
-below. The "default" environment is utilized as development because it cannot be
-removed. [You can read more about the "default" environment by clicking
-here](https://www.terraform.io/docs/state/environments.html#using-environments).
+# NOTE
+This repo doesn't use a [Terraform
+Backend](https://www.terraform.io/docs/backends/state.html) which is generally
+a good practice. This repo is for DEMO purposes only.
+
+For Datadog employees, you'll need to have
+`[aws-vault](https://github.com/99designs/aws-vault)` configured to provision
+AWS resources.
+
+# Workspaces
+This repo expects [Terraform
+Workspaces](https://www.terraform.io/docs/state/workspaces.html) to be used.
+See the [example.tfvars](/.example.tfvars) file for workspace based variable
+definitions that are expected. For the purposes of this document, the workspace
+name and filename used for will be `default`.
 
 ## Development ("Default")
 Use `terraform env select default` to switch to this environment. The
-`dev.tfvars` should be used with this environment when executing terraform
+`default.tfvars` should be used with this environment when executing terraform
 commands, e.g. `terraform plan -var-file=dev.tfvars`. This environment is for
 the development team to create a one-for-one likeness with production at a
 smaller scale to reduce cost.
-
-## Test
-Use `terraform env select test` to switch to this environment. The
-`test.tfvars` should be used with this environment when executing terraform
-commands, e.g. `terraform plan -var-file=test.tfvars`. This environment is to
-be used by QA when promoting changes from development prior to going to
-production.
 
 # Usage
 For a quick rough script for the demo, please look at [demo.md](demo.md); below
@@ -43,9 +44,5 @@ does not need to be supplied again, it is built into the plan output.
 - To destroy infrastructure simply run `terraform destroy -var-file=dev.tfvars`
 though there are times where you may want to plan a destroy first. To do so,
 add the `-destroy` flag to `terraform plan` and then `apply` the destroy plan.
-
-# Authors
-[Chris Kelner](http://github.com/ckelner)
-
 # License
 MIT; see [LICENSE](LICENSE) for details.
