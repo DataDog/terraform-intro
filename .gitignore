@@ -1,0 +1,13 @@
+##########################################################################################
+# TF ignores from https://github.com/github/gitignore/blob/master/Terraform.gitignore
+##########################################################################################
+#  Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# .tfvars files
+*.tfvars
+##########################################################################################
