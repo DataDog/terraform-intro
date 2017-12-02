@@ -1,32 +1,30 @@
 # Demo
-Demo script for Datadog
+Demo script - WIP
 
 ## Plan
-- `terraform env list`
-- `terraform env select default`
+- `terraform workspace list`
+- `terraform workspace select default`
+- `terraform init`
 - `terraform show`
 - `terraform output`
-- `terraform plan -out=plan.out -var-file=dev.tfvars`
+- `terraform plan -out=plan.out -var-file=default.tfvars`
 
 ## Apply
 - `terraform apply plan.out`
 - `terraform show`
 
-## Instance IP for SSH if we want
-`aws ec2 describe-instances --instance-ids <IDHERE> --region=us-east-2`
-
 ## Make change
 TBD
 
 ## Switch environment
-- `terraform env select test`
+- `terraform workspace select test`
 - `terraform show`
 - `terraform plan -out=plan.out -var-file=test.tfvars`
 
 ## Destroy
-- `terraform env select default`
-- `terraform plan -destroy -out=plan.out -var-file=dev.tfvars`
+- `terraform workspace select default`
+- `terraform plan -destroy -out=plan.out -var-file=default.tfvars`
 - `terraform apply plan.out`
 
 ## Refresh
-If output is stale: `terraform refresh -var-file=dev.tfvars`
+If output is stale: `terraform refresh -var-file=default.tfvars`
