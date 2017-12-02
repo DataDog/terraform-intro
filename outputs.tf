@@ -14,3 +14,6 @@ output "instance_id" {
 output "instance_ip" {
     value = "${aws_instance.web.public_ip}"
 }
+output "datadog_monitor_id" {
+    value = "${datadog_monitor.foo.id}"
+}
