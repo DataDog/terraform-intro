@@ -11,10 +11,15 @@ Demo script - WIP
 
 ## Apply
 - `terraform apply plan.out`
-- `terraform show`
+- `terraform output`
+
+## Show
+- `ssh ec2-user@<ip>`
+- `sudo su -`
+- `/etc/init.d/datadog-agent info`
 
 ## Make change
-TBD
+TBD/WIP
 
 ## Switch environment
 - `terraform workspace select test`
