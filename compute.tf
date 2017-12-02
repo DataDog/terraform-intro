@@ -18,13 +18,14 @@ resource "aws_instance" "web" {
     "${module.http_security_group.id}"
   ]
   user_data = <<-EOF
-    sudo yum install nginx -y
-    sudo chkconfig nginx on
-    sudo service nginx start
-    sudo service iptables stop
-    sudo chkconfig iptables off
-    DD_API_KEY="${var.datadog_api_key}" bash -c "$(curl -L https://raw.githubusercontent.com/DataDog/dd-agent/master/packaging/datadog-agent/source/install_agent.sh)"
-  EOF
+              #!/bin/bash
+              sudo yum install nginx -y
+              sudo chkconfig nginx on
+              sudo service nginx start
+              sudo service iptables stop
+              sudo chkconfig iptables off
+              DD_API_KEY="${var.datadog_api_key}" bash -c "$(curl -L https://raw.githubusercontent.com/DataDog/dd-agent/master/packaging/datadog-agent/source/install_agent.sh)"
+              EOF
   key_name = "${aws_key_pair.aws_ssh_key.key_name}"
   associate_public_ip_address = true
   tags {
