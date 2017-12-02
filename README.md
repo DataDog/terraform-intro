@@ -7,7 +7,7 @@ Backend](https://www.terraform.io/docs/backends/state.html) which is generally
 a good practice. This repo is for DEMO purposes only.
 
 For Datadog employees, you'll need to have
-`[aws-vault](https://github.com/99designs/aws-vault)` configured to provision
+[`aws-vault`](https://github.com/99designs/aws-vault) configured to provision
 AWS resources.
 
 # Workspaces
