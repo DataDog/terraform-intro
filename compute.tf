@@ -11,7 +11,7 @@ resource "aws_key_pair" "aws_ssh_key" {
 # https://www.terraform.io/docs/providers/aws/r/autoscaling_group.html
 #
 resource "aws_instance" "web" {
-  image_id = "${lookup(var.aws_amis, var.aws_region)}"
+  ami = "${lookup(var.aws_amis, var.aws_region)}"
   instance_type = "${var.aws_instance_type}"
   security_groups = [
     "${aws_security_group.web_sg.id}",
