@@ -40,3 +40,9 @@ variable "aws_asg_desired" {
 variable "aws_public_key_material" {
   description = "The public SSH key material to load onto the instances."
 }
+variable "datadog_api_key" {
+  description = "The Datadog API key to deploy the agent and create Datadog resources."
+}
+variable "datadog_app_key" {
+  description = "The Datadog APP key to create Datadog resources."
+}
