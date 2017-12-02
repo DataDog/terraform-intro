@@ -13,7 +13,7 @@ resource "aws_key_pair" "aws_ssh_key" {
 resource "aws_instance" "web" {
   ami = "${lookup(var.aws_amis, var.aws_region)}"
   instance_type = "${var.aws_instance_type}"
-  security_groups = [
+  vpc_security_group_ids = [
     "${aws_security_group.web_sg.id}",
     "${module.http_security_group.id}"
   ]
