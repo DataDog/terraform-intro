@@ -4,9 +4,9 @@
 resource "aws_vpc" "main" {
   cidr_block = "${var.aws_vpc_cidr_block}"
   tags {
-    "Name" = "${var.common_name}-${terraform.env}"
+    "Name" = "${var.common_name}-${terraform.workspace}"
     "Terraform" = "true"
-    "Environment" = "${terraform.env}"
+    "Environment" = "${terraform.workspace}"
   }
 }
 #
@@ -17,9 +17,9 @@ resource "aws_vpc" "main" {
 resource "aws_internet_gateway" "default" {
   vpc_id = "${aws_vpc.main.id}"
   tags {
-    "Name" = "${var.common_name}-${terraform.env}"
+    "Name" = "${var.common_name}-${terraform.workspace}"
     "Terraform" = "true"
-    "Environment" = "${terraform.env}"
+    "Environment" = "${terraform.workspace}"
   }
 }
 #
@@ -42,9 +42,9 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
   availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
   tags {
-    "Name" = "${var.common_name}-${terraform.env}-${count.index}"
+    "Name" = "${var.common_name}-${terraform.workspace}-${count.index}"
     "Terraform" = "true"
-    "Environment" = "${terraform.env}"
+    "Environment" = "${terraform.workspace}"
   }
 }
 #
@@ -56,11 +56,11 @@ resource "aws_subnet" "public" {
 module "http_security_group" {
   source      = "github.com/ckelner/tf_aws_http_sg"
   vpc_id      = "${aws_vpc.main.id}"
-  name_prefix = "${var.common_name}-${terraform.env}"
+  name_prefix = "${var.common_name}-${terraform.workspace}"
   description = "For allowing HTTP Traffic to the web node"
   tags        = {
     "Terraform" = "true"
-    "Environment" = "${terraform.env}"
+    "Environment" = "${terraform.workspace}"
   }
 }
 #
@@ -68,12 +68,12 @@ module "http_security_group" {
 # https://www.terraform.io/docs/providers/aws/r/security_group.html
 #
 resource "aws_security_group" "web_sg" {
-  name_prefix = "${var.common_name}-${terraform.env}"
+  name_prefix = "${var.common_name}-${terraform.workspace}"
   description = "Security Group for web node SSH"
   vpc_id      = "${aws_vpc.main.id}"
   tags        = {
     "Terraform" = "true"
-    "Environment" = "${terraform.env}"
+    "Environment" = "${terraform.workspace}"
   }
 }
 #
