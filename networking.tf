@@ -48,42 +48,16 @@ resource "aws_subnet" "public" {
   }
 }
 #
-# AWS Load Balancing to front our instances
-# https://www.terraform.io/docs/providers/aws/r/elb.html
-#
-resource "aws_elb" "elb" {
-  name = "${var.common_name}-${terraform.env}"
-  subnets = ["${aws_subnet.public.*.id}"]
-  security_groups = ["${module.elb_http_security_group.id}"]
-  listener {
-    instance_port     = 80
-    instance_protocol = "http"
-    lb_port           = 80
-    lb_protocol       = "http"
-  }
-  health_check {
-    healthy_threshold   = 2 # be quick!
-    unhealthy_threshold = 3
-    timeout             = 10
-    target              = "HTTP:80/"
-    interval            = 15
-  }
-  tags {
-    "Terraform" = "true"
-    "Environment" = "${terraform.env}"
-  }
-}
-#
 # AWS Firewalls
 #
 # Example using a module
 # https://github.com/ckelner/tf_aws_http_sg
 #
-module "elb_http_security_group" {
+module "http_security_group" {
   source      = "github.com/ckelner/tf_aws_http_sg"
   vpc_id      = "${aws_vpc.main.id}"
   name_prefix = "${var.common_name}-${terraform.env}"
-  description = "For allowing HTTP Traffic to the ELB"
+  description = "For allowing HTTP Traffic to the web node"
   tags        = {
     "Terraform" = "true"
     "Environment" = "${terraform.env}"
@@ -95,7 +69,7 @@ module "elb_http_security_group" {
 #
 resource "aws_security_group" "web_sg" {
   name_prefix = "${var.common_name}-${terraform.env}"
-  description = "Security Group from web node SSH"
+  description = "Security Group for web node SSH"
   vpc_id      = "${aws_vpc.main.id}"
   tags        = {
     "Terraform" = "true"
@@ -113,17 +87,6 @@ resource "aws_security_group_rule" "inbound_ssh_from_anywhere" {
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = "${aws_security_group.web_sg.id}"
-}
-resource "aws_security_group_rule" "inbound_http_from_elb" {
-  type                     = "ingress"
-  from_port                = 80
-  to_port                  = 80
-  protocol                 = "tcp"
-  source_security_group_id = "${module.elb_http_security_group.id}"
-  # silly hack for demo -- removed for the above after fixing the port issue
-  # kept here for posterity for those that attended the demo
-  # cidr_blocks     = ["0.0.0.0/0"]
-  security_group_id        = "${aws_security_group.web_sg.id}"
 }
 resource "aws_security_group_rule" "outbound_to_anywhere" {
   type            = "egress"

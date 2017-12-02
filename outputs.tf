@@ -8,15 +8,9 @@ output "vpc_id" {
 output "subnet_ids" {
     value = ["${aws_subnet.public.*.id}"]
 }
-output "elb_id" {
-    value = "${aws_elb.elb.id}"
+output "instance_id" {
+    value = "${aws_instance.web.id}"
 }
-output "elb_dns_name " {
-    value = "${aws_elb.elb.dns_name}"
-}
-output "elb_instance_ids" {
-    value = "${aws_elb.elb.instances}"
-}
-output "asg_id" {
-    value = "${aws_autoscaling_group.web_asg.id}"
+output "instance_ip" {
+    value = "${aws_instance.web.public_ip}"
 }
